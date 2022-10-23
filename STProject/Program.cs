@@ -1,4 +1,14 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using STProject.Data;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<STProjectContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("STProjectConnectionString"));
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
