@@ -2,6 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using STProject.Data.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<STProjectContext>(options =>
@@ -9,8 +12,10 @@ builder.Services.AddDbContext<STProjectContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("STProjectConnectionString"));
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<STProjectContext>();
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<STProjectContext>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI(); ;
 
 // Add services to the container.
 builder.Services.AddRazorPages();
