@@ -1,4 +1,16 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using STProject.Data;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<STProjectContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("STProjectConnectionString"));
+});
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<STProjectContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -17,6 +29,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
