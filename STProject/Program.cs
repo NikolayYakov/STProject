@@ -12,10 +12,18 @@ builder.Services.AddDbContext<STProjectContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("STProjectConnectionString"));
 });
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<STProjectContext>()
-    .AddDefaultTokenProviders()
-    .AddDefaultUI(); ;
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => 
+options.Password = new PasswordOptions
+{
+    RequireDigit = false,
+    RequiredLength = 6,
+    RequireLowercase = false,
+    RequireUppercase = false,
+    RequireNonAlphanumeric = false,
+})
+.AddEntityFrameworkStores<STProjectContext>()
+.AddDefaultTokenProviders()
+.AddDefaultUI(); 
 
 // Add services to the container.
 builder.Services.AddRazorPages();
