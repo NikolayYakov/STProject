@@ -18,6 +18,9 @@ namespace STProject.Data.Models
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
 
+        public int CategoryId { get; set; }
+        public Category? Category { get; init; }
+
         //ApplicationUser
         [ForeignKey("Owner")]
         public string? OwnerId { get; set; }

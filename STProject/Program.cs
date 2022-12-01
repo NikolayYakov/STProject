@@ -1,8 +1,6 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using STProject.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 

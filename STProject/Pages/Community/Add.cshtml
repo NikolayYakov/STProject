@@ -1,0 +1,38 @@
+﻿@page
+@using STProject.Models.Community
+@model CommunityFormModel
+@{
+    ViewData["Title"] = "Community Add";
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Sakura Haruno - Anime Figure / Bleach - Poster / Mikasa Akerman - Plush">
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" placeholder="Figure of Orochimaru; heigth: 31cm; weight; 300grams">
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <select asp-for="CategoryId" class="form-control">
+                    <option value="1">Категория 1</option>
+                    <option value="2">Категория 2</option>
+                </select>
+            </div>
+            <select asp-for="CategoryId" class="selectpicker" data-live-search="true">
+                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+            </select>
+            <br />
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </form>
+    </div>
+</div>
