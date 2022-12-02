@@ -12,6 +12,10 @@ namespace STProject.Models.Community
         [StringLength(255, MinimumLength = 2)]
         public string Description { get; set; }
 
+        [Required]
+        [MaxLength(2048)]
+        public string ImageUrl { get; set; }
+
         [Display(Name = "Category")]
         public int CategoryId { get; init; }
 

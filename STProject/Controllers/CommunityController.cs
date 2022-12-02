@@ -2,30 +2,53 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
     using STProject.Models.Community;
+    using STProject.Services.Communities;
+    using STProject.Infrastucture;
+    using AutoMapper;
 
     public class CommunityController : Controller
     {
-        public CommunityController()
+        private readonly ICommunityService communities;
+        private readonly IMapper mapper;
+
+        public CommunityController(ICommunityService communities, IMapper mapper)
         {
+            this.communities = communities;
+            this.mapper = mapper;
         }
 
-        [Authorize]
         [HttpGet]
-        public IActionResult All()
+        public IActionResult All([FromQuery] CommunitiesSearchQueryModel query)
         {
-            return View();
+
+            Console.WriteLine(query.Category);
+
+            var queryResult = this.communities.All(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                CommunitiesSearchQueryModel.CommunitiesPerPage
+                );
+
+            var categories = this.communities.AllCategories().Select(c => c.Name);
+
+            query.Categories = categories;
+            query.TotalCommunities = queryResult.TotalCommunities;
+            query.Products = queryResult.Communities;
+
+            return View(query);
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return View(new CommunityFormModel());
 
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult Add(CommunityFormModel model)
         {

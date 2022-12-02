@@ -10,10 +10,17 @@ namespace STProject.Data.Models
         public int Id { get; set; }
         [Required]
         [MaxLength(55)]
+
         public string Name { get; set; }
+
         [Required]
         [MaxLength(255)]
         public string Description { get; set; }
+
+        [Required]
+        [MaxLength(2048)]
+        public string ImageUrl { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
