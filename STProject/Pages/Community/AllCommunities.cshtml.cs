@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,13 @@ namespace STProject.Pages.Community
     public class AllCommunitiesModel : PageModel
     {
         private readonly STProject.Data.STProjectContext _context;
-        private readonly ICommunityService communities;
+        private readonly ICommunityService _communities;
 
 
         public AllCommunitiesModel(STProject.Data.STProjectContext context)
         {
             _context = context;
-            communities = new CommunityService(_context);
+            _communities = new CommunityService(_context);
         }
 
         [BindProperty(SupportsGet = true)]
@@ -41,21 +42,14 @@ namespace STProject.Pages.Community
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
 
-        public void OnGetSearch()
-        {
-            Communities = communities.Search(SearchTerm);
-        }
-
         public async Task OnGetAsync()
         {
             //CurrentPage = currentPage == 0 ? CurrentPage : currentPage;
 
-            Communities = communities.Search(SearchTerm);
+            Communities = _communities.Search(SearchTerm);
+            Count = Communities.Count();
 
-            Communities = await communities.GetPaginatedResult(Communities, CurrentPage, PageSize);
-            Count = _context.Communities.Count();
+            Communities = await _communities.GetPaginatedResult(Communities, CurrentPage, PageSize);
         }
-
-
     }
 }

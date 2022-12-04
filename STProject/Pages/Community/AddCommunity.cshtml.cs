@@ -47,7 +47,7 @@ namespace STProject.Pages.Community
 
             communities.Create(Community);
 
-            return RedirectToPage("/Community/All");
+            return RedirectToPage("/Community/AllCommunities");
         }
     }
 }

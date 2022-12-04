@@ -23,7 +23,7 @@
         <div class="inpit-group">
             <input class="form-control" asp-for="SearchTerm" />
             <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
+                <button asp-page="AllCommunities" asp-route-currentPage="1" asp-route-searchTerm="@Model.SearchTerm" class="btn btn-primary" type="submit">
                     Search
                 </button>
             </div>
@@ -68,20 +68,20 @@
             </div>
 
             <div>
-                <ul class="pagination">
+                <ul class="pagination" id="pagination">
                     <li class="page-item @(!Model.ShowFirst? "disabled":"")">
-                        <a asp-page="AllCommunities" asp-route-currentPage="1" class="page-link"><i class="fas fa-fast-backward"></i></a>
+                        <a asp-page="AllCommunities" asp-route-currentPage="1" asp-route-searchTerm="@Model.SearchTerm" class="page-link"><i class="fas fa-fast-backward"></i></a>
                     </li>
 
                     <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
-                        <a asp-page="AllCommunities" asp-route-currentPage=@(Model.CurrentPage - 1) class="page-link"><i class="fas fa-step-backward"></i></a>
+                        <a asp-page="AllCommunities" asp-route-currentPage=@(Model.CurrentPage - 1) asp-route-searchTerm="@Model.SearchTerm" class="page-link"><i class="fas fa-step-backward"></i></a>
                     </li>
                     <li class="page-item  @(!Model.ShowNext? "disabled":"")">
-                        <a asp-page="AllCommunities" asp-route-currentPage="@(Model.CurrentPage + 1)" class="page-link"><i class="fas fa-step-forward"></i></a>
+                        <a asp-page="AllCommunities" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-searchTerm="@Model.SearchTerm" class="page-link"><i class="fas fa-step-forward"></i></a>
                     </li>
 
                     <li class="page-item  @(!Model.ShowLast? "disabled":"")">
-                        <a asp-page="AllCommunities" asp-route-currentPage="@Model.TotalPages" class="page-link"><i class="fas fa-fast-forward"></i></a>
+                        <a asp-page="AllCommunities" asp-route-currentPage="@Model.TotalPages" asp-route-searchTerm="@Model.SearchTerm" class="page-link"><i class="fas fa-fast-forward"></i></a>
                     </li>
                 </ul>
             </div>

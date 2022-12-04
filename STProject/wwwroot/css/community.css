@@ -192,3 +192,7 @@ h5 {
     padding: 20px;
     color: dimgray;
 }
+
+#pagination {
+    padding-left: 45%;
+}
