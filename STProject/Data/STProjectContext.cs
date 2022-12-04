@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data.Models;
 using System.Reflection.Emit;
+using STProject.Services.Communities;
 
 namespace STProject.Data
 {

@@ -1,0 +1,58 @@
+﻿@page
+@model STProject.Pages.Community.AddCommunityModel
+
+@{
+    ViewData["Title"] = "AddCommunity";
+}
+
+<h1>AddCommunity</h1>
+<hr />
+
+<div class="row">
+    <h3 class="text-center mb-4">Create your OWN community:</h3>
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="text-center form-group">
+                <label asp-for="Community.Name"></label>
+                <input asp-for="Community.Name" class="form-control" placeholder="Joseph Joestar">
+                <span asp-validation-for="Community.Name" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="text-center form-group">
+                <label asp-for="Community.Description"></label>
+                <input asp-for="Community.Description" class="form-control" placeholder="This is a community for people interested in JoJo">
+                <span asp-validation-for="Community.Description" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="text-center form-group">
+                <label>Image: *optional*</label>
+                <input asp-for="Community.ImageUrl" class="form-control" placeholder="https://static.bandainamcoent.eu/high/jojo/jojo-bizarre-adventure-all-star-battle-r/jojo-header-mobile.jpg">
+                <span asp-validation-for="Community.ImageUrl" class="small text-danger"></span>
+            </div>
+            <br />
+            <div class="text-center form-group">
+                <label> Choose a category</label>
+                <select asp-for="Community.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            <br />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Community.IsPrivate" /> Make it Private
+                </label>
+            </div>
+            <br />
+            <select asp-for="Community.OwnerId" class="visually-hidden" asp-items="ViewBag.OwnerId"></select>
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

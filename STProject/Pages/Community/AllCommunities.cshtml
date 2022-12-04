@@ -1,0 +1,120 @@
+﻿@page
+@*"{currentPage:int?}"*@
+@model STProject.Pages.Community.AllCommunitiesModel
+
+@{
+    ViewData["Title"] = "AllCommunities";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous" />
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<head>
+    <link rel="stylesheet" href="~/css/community.css" />
+</head>
+
+
+
+<h1>AllCommunities</h1>
+
+<div>
+    <hr />
+
+    <form method="get">
+        <div class="inpit-group">
+            <input class="form-control" asp-for="SearchTerm" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="career-search mb-60">
+                    <div class="filter-result">
+                        <p class="mb-30 ff-montserrat">There are @Model.Count communities you may join</p>
+                        @foreach (var community in Model.Communities)
+                        {
+                            <div class="community-box d-md-flex align-items-center justify-content-between mb-30">
+                                <div class="community-left my-4 d-md-flex align-items-center flex-wrap">
+                                    <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
+                                        @community.Owner - името на създателя
+                                    </div>
+                                    <div class="community-content">
+                                        <h5 class="text-md-left">@community.Name</h5>
+                                        <h6 class="text-md-left description">Description: @community.Description</h6>
+                                        <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
+                                            <li class="mr-md-4">
+                                                <i class="fas fa-key"></i> @(community.IsPrivate == false ? "Public" : "Private")
+                                            </li>
+                                            <li class="mr-md-4">
+                                                <i class="fas fa-male"></i> (Members count)
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="community-right my-4 flex-shrink-0">
+                                    <a asp-page="Details" asp-route-id="@community.Id" class="btn d-block w-80 d-sm-inline-block btn-primary">Details</a>
+                                    <a href="#" class="btn d-block w-80 d-sm-inline-block btn-primary">@(community.IsPrivate == false ? "Join" : "Apply") Now</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+                <ul class="pagination">
+                    <li class="page-item @(!Model.ShowFirst? "disabled":"")">
+                        <a asp-page="AllCommunities" asp-route-currentPage="1" class="page-link"><i class="fas fa-fast-backward"></i></a>
+                    </li>
+
+                    <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+                        <a asp-page="AllCommunities" asp-route-currentPage=@(Model.CurrentPage - 1) class="page-link"><i class="fas fa-step-backward"></i></a>
+                    </li>
+                    <li class="page-item  @(!Model.ShowNext? "disabled":"")">
+                        <a asp-page="AllCommunities" asp-route-currentPage="@(Model.CurrentPage + 1)" class="page-link"><i class="fas fa-step-forward"></i></a>
+                    </li>
+
+                    <li class="page-item  @(!Model.ShowLast? "disabled":"")">
+                        <a asp-page="AllCommunities" asp-route-currentPage="@Model.TotalPages" class="page-link"><i class="fas fa-fast-forward"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@*@page "{catId:int?}"
+@model AllCommunitiesModel
+
+<h2>Pagination Example</h2>
+
+<table class="table table-striped">
+    @foreach (var item in Model.Communities)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>@item.IsPrivate</td>
+            <td>@item.Category</td>
+        </tr>
+    }
+</table>
+<div>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                <a asp-page="AllCommunities" asp-route-catId="@i" class="page-link">@i</a>
+            </li>
+        }
+    </ul>
+</div>*@

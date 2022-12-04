@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-
+using Newtonsoft.Json;
 using STProject.Data;
 using STProject.Data.Models;
 using STProject.Models.Community;
+using System;
 
 namespace STProject.Services.Communities
 {
@@ -16,14 +17,31 @@ namespace STProject.Services.Communities
     public class CommunityService : ICommunityService
     {
         private readonly STProjectContext data;
-        private readonly AutoMapper.IConfigurationProvider mapper;
 
-        public CommunityService(STProjectContext data, AutoMapper.IConfigurationProvider mapper)
+        public CommunityService(STProjectContext data)
         {
             this.data = data;
-            this.mapper = mapper;
         }
 
+        public async Task<List<Community>> GetPaginatedResult(List<Community> communities, int currentPage, int pageSize = 1)
+        {
+            return communities.OrderBy(d => d.Id).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+        }
+
+        public List<Community> Search(string searchTerm = null)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+                return data.Communities.ToList();
+
+            return data.Communities.Where(c => c.Name.Contains(searchTerm) ||
+                                              c.Description.Contains(searchTerm) ||
+                                              c.Category.Name.Contains(searchTerm)).ToList();
+        }
+
+        public int GetCount()
+        {
+            return this.data.Communities.Count();
+        }
 
         public CommunityQueryServiceModel All(
             string category,
@@ -56,7 +74,6 @@ namespace STProject.Services.Communities
             var products = communitiesQuery
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
-                .ProjectTo<CommunityServiceModel>(this.mapper)
                 .ToList();
 
             var categories = this.data
@@ -69,24 +86,13 @@ namespace STProject.Services.Communities
             {
                 TotalCommunities = totalProducts,
                 CurrentPage = currentPage,
-                Communities = products,
                 ComminutiesPerPage = productsPerPage
             };
         }
 
 
-        public int Create(string name, string description, DateTime createdOn, bool IsDeleted, int CategoryId, string OwnerId)
+        public int Create(Community community)
         {
-            var community = new Community
-            {
-                Name = name,
-                Description = description,
-                CreatedOn = createdOn,
-                IsDeleted = IsDeleted,
-                CategoryId = CategoryId,
-                OwnerId = OwnerId
-            };
-
             this.data.Communities.Add(community);
             this.data.SaveChanges();
 

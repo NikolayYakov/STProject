@@ -7,6 +7,7 @@
     using STProject.Services.Communities;
     using STProject.Infrastucture;
     using AutoMapper;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
 
     public class CommunityController : Controller
     {
@@ -22,9 +23,6 @@
         [HttpGet]
         public IActionResult All([FromQuery] CommunitiesSearchQueryModel query)
         {
-
-            Console.WriteLine(query.Category);
-
             var queryResult = this.communities.All(
                 query.Category,
                 query.SearchTerm,
@@ -43,10 +41,15 @@
         }
 
         [HttpGet]
+        public IActionResult Details()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Add()
         {
             return View(new CommunityFormModel());
-
         }
 
         [HttpPost]

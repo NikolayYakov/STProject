@@ -1,6 +1,7 @@
 ﻿using STProject.Data.Interfaces;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace STProject.Data.Models
 {
@@ -21,6 +22,8 @@ namespace STProject.Data.Models
         [MaxLength(2048)]
         public string ImageUrl { get; set; }
 
+        public bool IsPrivate { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
@@ -34,6 +37,5 @@ namespace STProject.Data.Models
         public ApplicationUser? Owner { get; set; }
 
         public ICollection<Post>? Posts { get; set; }
-
     }
 }

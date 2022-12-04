@@ -1,4 +1,7 @@
-﻿using STProject.Models.Community;
+﻿using Microsoft.EntityFrameworkCore;
+using STProject.Data.Models;
+using STProject.Models.Community;
+using System;
 
 namespace STProject.Services.Communities
 {
@@ -10,16 +13,15 @@ namespace STProject.Services.Communities
             CommunitiesSorting sorting,
             int currentPage,
             int productsPerPage);
+        Task<List<Community>> GetPaginatedResult(List<Community> communities, int currentPage, int pageSize = 10);
 
-        int Create(
-            string name,
-            string description,
-            DateTime createdOn,
-            bool IsDeleted,
-            int CategoryId,
-            string OwnerId
-            );
+        public int GetCount();
+
+        int Create(Community community);
 
         IEnumerable<CommunityCatergoryServiceModel> AllCategories();
+
+        List<Community> Search(string searchTerm);
+
     }
 }

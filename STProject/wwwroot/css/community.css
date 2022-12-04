@@ -186,3 +186,9 @@ h5 {
 .container .row {
     margin-top: 50px;
 }
+
+.description {
+    margin-left: 20px;
+    padding: 20px;
+    color: dimgray;
+}
