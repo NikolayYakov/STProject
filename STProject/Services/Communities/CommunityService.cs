@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using STProject.Data;
 using STProject.Data.Models;
-using STProject.Models.Community;
 using System;
 
 namespace STProject.Services.Communities
@@ -43,54 +43,6 @@ namespace STProject.Services.Communities
             return this.data.Communities.Count();
         }
 
-        public CommunityQueryServiceModel All(
-            string category,
-            string searchTerm,
-            CommunitiesSorting sorting,
-            int currentPage,
-            int productsPerPage)
-        {
-            var communitiesQuery = this.data.Communities.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(category))
-            {
-                communitiesQuery = communitiesQuery.Where(p => p.Category.Name == category);
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                communitiesQuery = communitiesQuery.Where(p =>
-                    p.Name.ToLower().Contains(searchTerm.ToLower()));
-            }
-
-            communitiesQuery = sorting switch
-            {
-                CommunitiesSorting.Name => communitiesQuery.OrderBy(p => p.Name),
-                CommunitiesSorting.DateCreated or _ => communitiesQuery.OrderByDescending(p => p.Id)
-            };
-
-            var totalProducts = communitiesQuery.Count();
-
-            var products = communitiesQuery
-                .Skip((currentPage - 1) * productsPerPage)
-                .Take(productsPerPage)
-                .ToList();
-
-            var categories = this.data
-                .Communities
-                .Select(c => c.Category.Name)
-                .Distinct()
-                .ToList();
-
-            return new CommunityQueryServiceModel
-            {
-                TotalCommunities = totalProducts,
-                CurrentPage = currentPage,
-                ComminutiesPerPage = productsPerPage
-            };
-        }
-
-
         public int Create(Community community)
         {
             this.data.Communities.Add(community);
@@ -99,14 +51,22 @@ namespace STProject.Services.Communities
             return community.Id;
         }
 
-        public IEnumerable<CommunityCatergoryServiceModel> AllCategories()
-        => this.data
-                .Categories
-                .Select(c => new CommunityCatergoryServiceModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToList();
+        public Community Details(int? id)
+        {
+            if (id == null || data.Communities == null)
+            {
+                return null;
+            }
+
+            var community = data.Communities.FirstOrDefault(m => m.Id == id);
+            if (community == null)
+            {
+                return null;
+            }
+            else
+            {
+                return community;
+            }
+        }
     }
 }

@@ -193,6 +193,20 @@ h5 {
     color: dimgray;
 }
 
+.inpit-group {
+    display: flex;
+}
+
+
 #pagination {
     padding-left: 45%;
+}
+
+.sorting {
+    margin-left: 58%;
+}
+
+#selectList {
+    display: initial;
+    width: auto;
 }

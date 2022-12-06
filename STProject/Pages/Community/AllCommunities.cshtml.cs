@@ -42,10 +42,12 @@ namespace STProject.Pages.Community
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
 
+        public string[] Sorting = new string[] { "Date", "Alphabetical" };
+
+        public string SortingMethod { get; set; }
+
         public async Task OnGetAsync()
         {
-            //CurrentPage = currentPage == 0 ? CurrentPage : currentPage;
-
             Communities = _communities.Search(SearchTerm);
             Count = Communities.Count();
 

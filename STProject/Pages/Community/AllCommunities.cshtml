@@ -36,6 +36,7 @@
                 <div class="career-search mb-60">
                     <div class="filter-result">
                         <p class="mb-30 ff-montserrat">There are @Model.Count communities you may join</p>
+                        <br />
                         @foreach (var community in Model.Communities)
                         {
                             <div class="community-box d-md-flex align-items-center justify-content-between mb-30">
@@ -58,6 +59,7 @@
                                 </div>
                                 <div class="community-right my-4 flex-shrink-0">
                                     <a asp-page="Details" asp-route-id="@community.Id" class="btn d-block w-80 d-sm-inline-block btn-primary">Details</a>
+
                                     <a href="#" class="btn d-block w-80 d-sm-inline-block btn-primary">@(community.IsPrivate == false ? "Join" : "Apply") Now</a>
                                 </div>
                             </div>
@@ -90,31 +92,3 @@
     </div>
 
 </div>
-
-@*@page "{catId:int?}"
-@model AllCommunitiesModel
-
-<h2>Pagination Example</h2>
-
-<table class="table table-striped">
-    @foreach (var item in Model.Communities)
-    {
-        <tr>
-            <td>@item.Id</td>
-            <td>@item.Name</td>
-            <td>@item.Description</td>
-            <td>@item.IsPrivate</td>
-            <td>@item.Category</td>
-        </tr>
-    }
-</table>
-<div>
-    <ul class="pagination">
-        @for (var i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a asp-page="AllCommunities" asp-route-catId="@i" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</div>*@
