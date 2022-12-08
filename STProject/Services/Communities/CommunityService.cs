@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal.Mappers;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -45,7 +46,27 @@ namespace STProject.Services.Communities
 
         public int Create(Community community)
         {
+            //community.Owner = data.Users.First(u => u.Id == community.OwnerId); - не го сетва, в users ми излиза, че няма потребители
             this.data.Communities.Add(community);
+            this.data.SaveChanges();
+
+            return community.Id;
+        }
+
+        public int Edit(Community community)
+        {
+            var curr = this.data.Communities.Find(community.Id);
+
+            if (curr == null)
+            {
+                return 0;
+            }
+
+            curr.Name = community.Name;
+            curr.Description = community.Description;
+            curr.CategoryId = community.CategoryId;
+            curr.IsPrivate = community.IsPrivate;
+
             this.data.SaveChanges();
 
             return community.Id;

@@ -12,13 +12,9 @@
     <link rel="stylesheet" href="~/css/community.css" />
 </head>
 
-
-
 <h1>AllCommunities</h1>
-
 <div>
     <hr />
-
     <form method="get">
         <div class="inpit-group">
             <input class="form-control" asp-for="SearchTerm" />
@@ -29,7 +25,6 @@
             </div>
         </div>
     </form>
-
     <div class="container">
         <div class="row">
             <div class="col-lg-10 mx-auto">
@@ -42,7 +37,7 @@
                             <div class="community-box d-md-flex align-items-center justify-content-between mb-30">
                                 <div class="community-left my-4 d-md-flex align-items-center flex-wrap">
                                     <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                                        @community.Owner - името на създателя
+                                        @*  @(community.OwnerId != null ? community.Owner.UserName.Substring(0, 2).ToUpper()*@"ще трябва да може да се достъпва само от authorized users"
                                     </div>
                                     <div class="community-content">
                                         <h5 class="text-md-left">@community.Name</h5>
@@ -65,10 +60,8 @@
                             </div>
                         }
                     </div>
-
                 </div>
             </div>
-
             <div>
                 <ul class="pagination" id="pagination">
                     <li class="page-item @(!Model.ShowFirst? "disabled":"")">
@@ -87,8 +80,6 @@
                     </li>
                 </ul>
             </div>
-
         </div>
     </div>
-
 </div>

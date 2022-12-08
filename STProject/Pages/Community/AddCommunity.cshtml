@@ -25,12 +25,6 @@
             </div>
             <br />
             <div class="text-center form-group">
-                <label>Image: *optional*</label>
-                <input asp-for="Community.ImageUrl" class="form-control" placeholder="https://static.bandainamcoent.eu/high/jojo/jojo-bizarre-adventure-all-star-battle-r/jojo-header-mobile.jpg">
-                <span asp-validation-for="Community.ImageUrl" class="small text-danger"></span>
-            </div>
-            <br />
-            <div class="text-center form-group">
                 <label> Choose a category</label>
                 <select asp-for="Community.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>

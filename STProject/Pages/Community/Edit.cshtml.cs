@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data;
 using STProject.Data.Models;
+using STProject.Services.Communities;
 
 namespace STProject.Pages.Community
 {
     public class EditModel : PageModel
     {
         private readonly STProject.Data.STProjectContext _context;
+        private readonly ICommunityService communities;
 
         public EditModel(STProject.Data.STProjectContext context)
         {
             _context = context;
+            this.communities = new CommunityService(_context);
         }
 
         [BindProperty]
@@ -41,8 +44,6 @@ namespace STProject.Pages.Community
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -68,7 +69,7 @@ namespace STProject.Pages.Community
                 }
             }
 
-            return RedirectToPage("./Index");
+            return Redirect($"/Community/Details?id={Community.Id}");
         }
 
         private bool CommunityExists(int id)

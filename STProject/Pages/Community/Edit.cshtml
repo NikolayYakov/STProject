@@ -9,59 +9,38 @@
 
 <h4>Community</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
+    <h3 class="text-center mb-4">Edit your OWN community:</h3>
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Community.Id" />
-            <div class="form-group">
-                <label asp-for="Community.Name" class="control-label"></label>
-                <input asp-for="Community.Name" class="form-control" />
-                <span asp-validation-for="Community.Name" class="text-danger"></span>
+            <div class="text-center form-group">
+                <label asp-for="Community.Name"></label>
+                <input asp-for="Community.Name" class="form-control" placeholder="Joseph Joestar">
+                <span asp-validation-for="Community.Name" class="small text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Community.Description" class="control-label"></label>
-                <input asp-for="Community.Description" class="form-control" />
-                <span asp-validation-for="Community.Description" class="text-danger"></span>
+            <br />
+            <div class="text-center form-group">
+                <label asp-for="Community.Description"></label>
+                <input asp-for="Community.Description" class="form-control" placeholder="This is a community for people interested in JoJo">
+                <span asp-validation-for="Community.Description" class="small text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Community.ImageUrl" class="control-label"></label>
-                <input asp-for="Community.ImageUrl" class="form-control" />
-                <span asp-validation-for="Community.ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Community.IsPrivate" /> @Html.DisplayNameFor(model => model.Community.IsPrivate)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Community.CreatedOn" class="control-label"></label>
-                <input asp-for="Community.CreatedOn" class="form-control" />
-                <span asp-validation-for="Community.CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Community.IsDeleted" /> @Html.DisplayNameFor(model => model.Community.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Community.DeletedOn" class="control-label"></label>
-                <input asp-for="Community.DeletedOn" class="form-control" />
-                <span asp-validation-for="Community.DeletedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Community.CategoryId" class="control-label"></label>
+            <br />
+            <div class="text-center form-group">
+                <label> Choose a category</label>
                 <select asp-for="Community.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="Community.CategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Community.OwnerId" class="control-label"></label>
-                <select asp-for="Community.OwnerId" class="form-control" asp-items="ViewBag.OwnerId"></select>
-                <span asp-validation-for="Community.OwnerId" class="text-danger"></span>
+            <br />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Community.IsPrivate" /> Make it Private
+                </label>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+            <br />
+            <select asp-for="Community.OwnerId" class="visually-hidden" asp-items="ViewBag.OwnerId"></select>
+            <input class="btn btn-primary" type="submit" value="Submit" />
         </form>
     </div>
 </div>
@@ -71,5 +50,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

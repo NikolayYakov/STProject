@@ -18,10 +18,6 @@ namespace STProject.Data.Models
         [MaxLength(255)]
         public string Description { get; set; }
 
-        [Required]
-        [MaxLength(2048)]
-        public string ImageUrl { get; set; }
-
         public bool IsPrivate { get; set; }
 
         public DateTime CreatedOn { get; set; }

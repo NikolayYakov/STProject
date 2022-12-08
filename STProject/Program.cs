@@ -18,7 +18,10 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => option
     .AddDefaultUI(); ;
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizePage("/Community/AddCommunity");
+});
 
 var app = builder.Build();
 

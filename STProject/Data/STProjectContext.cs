@@ -23,6 +23,13 @@ namespace STProject.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+               .Entity<Community>()
+               .HasOne(c => c.Owner)
+               .WithMany(o => o.Communities)
+               .HasForeignKey(c => c.OwnerId)
+               .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
             builder.Entity<UserToCommunity>()
           .HasKey(o => new { o.ApplicationUserId, o.CommunityId });

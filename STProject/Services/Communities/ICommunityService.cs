@@ -10,12 +10,12 @@ namespace STProject.Services.Communities
 
         public int GetCount();
 
-        int Create(Community community);
+        public int Create(Community community);
 
+        public int Edit(Community community);
 
-        List<Community> Search(string searchTerm);
+        public List<Community> Search(string searchTerm);
 
-
-        Community Details(int? id);
+        public Community Details(int? id);
     }
 }
