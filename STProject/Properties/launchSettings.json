@@ -1,13 +1,20 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:34357",
+      "sslPort": 44351
+    }
+  },
   "profiles": {
     "STProject": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "https://localhost:7155;http://localhost:5155",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7155;http://localhost:5155"
+      }
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -23,16 +30,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:7155;http://localhost:5155"
-      },
-      "distributionName": ""
-    }
-  },
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:34357",
-      "sslPort": 44351
+      }
     }
   }
 }
