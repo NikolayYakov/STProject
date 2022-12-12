@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using STProject.Data;
 
@@ -11,9 +12,10 @@ using STProject.Data;
 namespace STProject.Migrations
 {
     [DbContext(typeof(STProjectContext))]
-    partial class STProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20221127164808_AddingSameBasicModels")]
+    partial class AddingSameBasicModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,7 +262,7 @@ namespace STProject.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>
@@ -297,7 +299,7 @@ namespace STProject.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Communities");
+                    b.ToTable("Community");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Post", b =>
@@ -346,21 +348,6 @@ namespace STProject.Migrations
                     b.HasIndex("CommunityId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("STProject.Data.Models.UserToCommunity", b =>
-                {
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("CommunityId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ApplicationUserId", "CommunityId");
-
-                    b.HasIndex("CommunityId");
-
-                    b.ToTable("UsersToCommunities");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -440,34 +427,13 @@ namespace STProject.Migrations
 
             modelBuilder.Entity("STProject.Data.Models.Post", b =>
                 {
-                    b.HasOne("STProject.Data.Models.ApplicationUser", "Owner")
+                    b.HasOne("STProject.Data.Models.ApplicationUser", null)
                         .WithMany("Posts")
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("STProject.Data.Models.Community", "Community")
                         .WithMany("Posts")
                         .HasForeignKey("CommunityId");
-
-                    b.Navigation("Community");
-
-                    b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("STProject.Data.Models.UserToCommunity", b =>
-                {
-                    b.HasOne("STProject.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("STProject.Data.Models.Community", "Community")
-                        .WithMany()
-                        .HasForeignKey("CommunityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Community");
                 });
