@@ -12,8 +12,8 @@ using STProject.Data;
 namespace STProject.Migrations
 {
     [DbContext(typeof(STProjectContext))]
-    [Migration("20221127165906_AddingSameBasicModelsFix")]
-    partial class AddingSameBasicModelsFix
+    [Migration("20221208125812_CommunityUpdate")]
+    partial class CommunityUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,24 @@ namespace STProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("STProject.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("STProject.Data.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -273,6 +291,9 @@ namespace STProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -287,6 +308,9 @@ namespace STProject.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(55)
@@ -296,6 +320,8 @@ namespace STProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("OwnerId");
 
@@ -433,9 +459,18 @@ namespace STProject.Migrations
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>
                 {
+                    b.HasOne("STProject.Data.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("STProject.Data.Models.ApplicationUser", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .WithMany("Communities")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Category");
 
                     b.Navigation("Owner");
                 });
@@ -478,7 +513,14 @@ namespace STProject.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Communities");
+
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("STProject.Data.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>

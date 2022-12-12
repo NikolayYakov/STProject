@@ -1,6 +1,7 @@
 ﻿using STProject.Data.Interfaces;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace STProject.Data.Models
 {
@@ -10,13 +11,21 @@ namespace STProject.Data.Models
         public int Id { get; set; }
         [Required]
         [MaxLength(55)]
+
         public string Name { get; set; }
+
         [Required]
         [MaxLength(255)]
         public string Description { get; set; }
+
+        public bool IsPrivate { get; set; }
+
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
+
+        public int CategoryId { get; set; }
+        public Category? Category { get; init; }
 
         //ApplicationUser
         [ForeignKey("Owner")]
@@ -24,6 +33,5 @@ namespace STProject.Data.Models
         public ApplicationUser? Owner { get; set; }
 
         public ICollection<Post>? Posts { get; set; }
-
     }
 }

@@ -12,8 +12,8 @@ using STProject.Data;
 namespace STProject.Migrations
 {
     [DbContext(typeof(STProjectContext))]
-    [Migration("20221127164808_AddingSameBasicModels")]
-    partial class AddingSameBasicModels
+    [Migration("20221203115709_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,24 @@ namespace STProject.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("STProject.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("STProject.Data.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -262,7 +280,7 @@ namespace STProject.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>
@@ -272,6 +290,9 @@ namespace STProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -284,7 +305,15 @@ namespace STProject.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPrivate")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -297,9 +326,11 @@ namespace STProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Community");
+                    b.ToTable("Communities");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Post", b =>
@@ -348,6 +379,45 @@ namespace STProject.Migrations
                     b.HasIndex("CommunityId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("STProject.Data.Models.UserToCommunity", b =>
+                {
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CommunityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUserId", "CommunityId");
+
+                    b.HasIndex("CommunityId");
+
+                    b.ToTable("UsersToCommunities");
+                });
+
+            modelBuilder.Entity("STProject.Services.Communities.CommunityServiceModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Description")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommunityServiceModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -418,22 +488,51 @@ namespace STProject.Migrations
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>
                 {
+                    b.HasOne("STProject.Data.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("STProject.Data.Models.ApplicationUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
+
+                    b.Navigation("Category");
 
                     b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Post", b =>
                 {
-                    b.HasOne("STProject.Data.Models.ApplicationUser", null)
+                    b.HasOne("STProject.Data.Models.ApplicationUser", "Owner")
                         .WithMany("Posts")
                         .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("STProject.Data.Models.Community", "Community")
                         .WithMany("Posts")
                         .HasForeignKey("CommunityId");
+
+                    b.Navigation("Community");
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("STProject.Data.Models.UserToCommunity", b =>
+                {
+                    b.HasOne("STProject.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("STProject.Data.Models.Community", "Community")
+                        .WithMany()
+                        .HasForeignKey("CommunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Community");
                 });
@@ -443,6 +542,11 @@ namespace STProject.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("STProject.Data.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("STProject.Data.Models.Community", b =>
