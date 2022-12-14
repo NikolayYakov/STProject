@@ -4,6 +4,8 @@ using STProject.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using STProject.Data.Models;
+using STProject.Repositories.Interfaces;
+using STProject.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,8 @@ options.Password = new PasswordOptions
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<IUserRepository, UserRepo>();
 
 var app = builder.Build();
 
