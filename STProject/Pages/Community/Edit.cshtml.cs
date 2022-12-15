@@ -39,7 +39,6 @@ namespace STProject.Pages.Community
                 return NotFound();
             }
             Community = community;
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }

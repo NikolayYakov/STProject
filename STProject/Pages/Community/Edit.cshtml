@@ -28,17 +28,6 @@
                 <span asp-validation-for="Community.Description" class="small text-danger"></span>
             </div>
             <br />
-            <div class="text-center form-group">
-                <label> Choose a category</label>
-                <select asp-for="Community.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-            </div>
-            <br />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Community.IsPrivate" /> Make it Private
-                </label>
-            </div>
-            <br />
             <select asp-for="Community.OwnerId" class="visually-hidden" asp-items="ViewBag.OwnerId"></select>
             <input class="btn btn-primary" type="submit" value="Submit" />
         </form>

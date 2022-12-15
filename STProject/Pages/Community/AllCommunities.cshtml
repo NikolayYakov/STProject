@@ -44,9 +44,6 @@
                                         <h6 class="text-md-left description">Description: @community.Description</h6>
                                         <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                             <li class="mr-md-4">
-                                                <i class="fas fa-key"></i> @(community.IsPrivate == false ? "Public" : "Private")
-                                            </li>
-                                            <li class="mr-md-4">
                                                 <i class="fas fa-male"></i> (Members count)
                                             </li>
                                         </ul>
@@ -54,8 +51,6 @@
                                 </div>
                                 <div class="community-right my-4 flex-shrink-0">
                                     <a asp-page="Details" asp-route-id="@community.Id" class="btn d-block w-80 d-sm-inline-block btn-primary">Details</a>
-
-                                    <a href="#" class="btn d-block w-80 d-sm-inline-block btn-primary">@(community.IsPrivate == false ? "Join" : "Apply") Now</a>
                                 </div>
                             </div>
                         }
