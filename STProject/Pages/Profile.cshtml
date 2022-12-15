@@ -2,53 +2,66 @@
 @model STProject.Pages.ProfileModel
 @{
 }
+<div class="container">
 
-<div>
-    <div class="list-group-item list-group-item-action active nav-item d-inline-flex  align-items-center mr-2" aria-current="true" display: inline; padding: 10px;>
-        <a id="user-info-link" data-id="user-info" class="nav-link text-dark" href="#" title="UserInfo" onclick="Render(this);">UserInfo</a>
-    </div>
-    <div class="list-group-item list-group-item-action nav-item d-inline-flex  align-items-center mr-2" display: inline; padding: 10px;>
-        <a id="post-link" data-id="posts" class="nav-link text-dark" href="#" title="Posts" onclick="Render(this);">Posts</a>
-    </div>
-    <div class="list-group-item list-group-item-action nav-item d-inline-flex  align-items-center mr-2" display: inline; padding: 10px;>
-        <a id="comment-link" data-id="comments" class="nav-link text-dark" href="#" title="Comments" onclick="Render(this);">Comments</a>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a id="user-info-link" data-id="user-info" class="nav-link text-dark active" href="#" title="UserInfo" onclick="Render(this);">UserInfo</a>
+                </li>
+                <li class="nav-item">
+                    <a id="post-link" data-id="posts" class="nav-link text-dark" href="#" title="Posts" onclick="Render(this);">Posts</a>
+                </li class="nav-item">
+                <li class="nav-item"> 
+                    <a id="comment-link" data-id="comments" class="nav-link text-dark" href="#" title="Comments" onclick="Render(this);">Comments</a>
+                </li>
+            </ul>
+     
+        </div>
+
+        <div class="col-md-9">
+            <div class="pop row" id="user-info">
+                <div> 
+                    <h3> <b>Email: </b>@ViewData["Email"]</h3>
+                    <h3><b>Username: </b>@ViewData["Username"]</h3>
+                    <h3><b>TotalUpvotes: </b>@ViewData["TotalUpvotes"]</h3>
+                    <h3><b>TotalDownvotes: </b>@ViewData["TotalDownvotes"]</h3>
+                    
+                    <a class="btn btn-primary btn-sm" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user"></i> Edit</a>
+                </div>
+            </div>
+
+            <div class="pop row w-50 p-3" id="posts" hidden>
+
+                @foreach (var item in Model.UserPosts)
+                {
+                    <div class="border align-items-center mr-2">
+                        <h3><b>@item.Title</b></h3>
+                        <h5>@item.Content</h5>
+                        <h6>Up: @item.UpvotesCount Down: @item.DownvotesCount</h6>
+                    </div>
+                    <br />
+                }
+
+            </div>
+
+
+            <div class="pop row w-50 p-3" id="comments" hidden>
+                @foreach (var item in Model.UserComments)
+                {
+                    <div class="border align-items-center mr-2">
+                        <h5><b>@item.Content<b></h5>
+                        <h6>Up: @item.UpvotesCount Down: @item.DownvotesCount</h6>
+                    </div>
+                    <br />
+                }
+            </div>
+        </div>
     </div>
     
-   
-    <a class="btn btn-primary btn-sm" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="fas fa-user"></i> Edit</a>
- </div>
-<div class="pop" id="user-info">
-    <div>
-        <h3> Email: @ViewData["Email"]</h3>
-        <h3> Username: @ViewData["Username"]</h3>
-        <h3> TotalUpvotes: @ViewData["TotalUpvotes"]</h3>
-        <h3> TotalDownvotes: @ViewData["TotalDownvotes"]</h3>       
-    </div>
-    </div>
 </div>
-<div class="pop" id="posts" hidden>
 
-    @foreach (var item in Model.UserPosts)
-    {
-        <div class="border align-items-center mr-2">
-            <h3><b>@item.Title</b></h3>
-            <h5>@item.Content</h5>
-            <h6>Up: @item.UpvotesCount Down: @item.DownvotesCount</h6>
-        </div>
-        <br />
-    }
-
-</div>
-<div class="pop" id="comments" hidden>
-    @foreach (var item in Model.UserComments)
-    {
-        <div class="border align-items-center mr-2">
-            <h5><b>@item.Content<b></h5>
-            <h6>Up: @item.UpvotesCount Down: @item.DownvotesCount</h6>
-        </div>
-        <br />
-    }
-</div>
 
 
 @section Scripts
@@ -62,7 +75,7 @@
             $('.pop').hide(); // hide previous popup div
             // get the div id which to show
 
-            jQuery(d).parent('div').addClass('active');
+            jQuery(d).addClass('active');
             $('#' + id).removeAttr('hidden');
             $('#' + id).fadeIn(function () {  // show cuurent click link's popup
                 $(this).css({
