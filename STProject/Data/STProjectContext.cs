@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data.Models;
 using System.Reflection.Emit;
+using STProject.Services.Communities;
 
 namespace STProject.Data
 {
@@ -15,12 +16,19 @@ namespace STProject.Data
         public DbSet<UserToCommunity> UsersToCommunities { get; set; }
 
         public STProjectContext(DbContextOptions<STProjectContext> options)
-            :base(options)
+            : base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder
+               .Entity<Community>()
+               .HasOne(c => c.Owner)
+               .WithMany(o => o.Communities)
+               .HasForeignKey(c => c.OwnerId)
+               .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
             builder.Entity<UserToCommunity>()
           .HasKey(o => new { o.ApplicationUserId, o.CommunityId });
