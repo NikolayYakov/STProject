@@ -31,6 +31,8 @@ options.Password = new PasswordOptions
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizePage("/Community/AddCommunity");
+    options.Conventions.AuthorizePage("/Community/AllCommunities");
+    options.Conventions.AuthorizePage("/Profile");
 });
 
 builder.Services.AddScoped<IUserRepository, UserRepo>();
