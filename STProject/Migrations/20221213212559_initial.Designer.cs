@@ -12,7 +12,7 @@ using STProject.Data;
 namespace STProject.Migrations
 {
     [DbContext(typeof(STProjectContext))]
-    [Migration("20221203115709_initial")]
+    [Migration("20221213212559_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -305,11 +305,6 @@ namespace STProject.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -396,30 +391,6 @@ namespace STProject.Migrations
                     b.ToTable("UsersToCommunities");
                 });
 
-            modelBuilder.Entity("STProject.Services.Communities.CommunityServiceModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Description")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommunityServiceModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("STProject.Data.Models.ApplicationRole", null)
@@ -495,8 +466,9 @@ namespace STProject.Migrations
                         .IsRequired();
 
                     b.HasOne("STProject.Data.Models.ApplicationUser", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .WithMany("Communities")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
@@ -540,6 +512,8 @@ namespace STProject.Migrations
             modelBuilder.Entity("STProject.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Communities");
 
                     b.Navigation("Posts");
                 });

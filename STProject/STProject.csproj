@@ -18,10 +18,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+    <PackageReference Include="NuGet.Commands" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\Community\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="NuGet.Commands" />
+  </ItemGroup>
 </Project>
