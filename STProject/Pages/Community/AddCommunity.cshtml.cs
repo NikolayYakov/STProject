@@ -29,7 +29,6 @@ namespace STProject.Pages.Community
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }

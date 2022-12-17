@@ -18,14 +18,9 @@ namespace STProject.Data.Models
         [MaxLength(255)]
         public string Description { get; set; }
 
-        public bool IsPrivate { get; set; }
-
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
-
-        public int CategoryId { get; set; }
-        public Category? Category { get; init; }
 
         //ApplicationUser
         [ForeignKey("Owner")]

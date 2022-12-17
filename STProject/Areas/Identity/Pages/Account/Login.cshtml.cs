@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using STProject.Data.Models;
+using System.Security.Principal;
 
 namespace STProject.Areas.Identity.Pages.Account
 {
@@ -83,6 +84,8 @@ namespace STProject.Areas.Identity.Pages.Account
             /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            
         }
 
         public async Task OnGetAsync(string returnUrl = null)

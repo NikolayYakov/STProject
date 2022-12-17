@@ -14,7 +14,6 @@ namespace STProject.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Community> Communities { get; set; }
         public DbSet<UserToCommunity> UsersToCommunities { get; set; }
-        public DbSet<Category> Categories { get; set; }
 
         public STProjectContext(DbContextOptions<STProjectContext> options)
             : base(options)

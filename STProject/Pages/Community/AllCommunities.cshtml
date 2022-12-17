@@ -37,15 +37,12 @@
                             <div class="community-box d-md-flex align-items-center justify-content-between mb-30">
                                 <div class="community-left my-4 d-md-flex align-items-center flex-wrap">
                                     <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                                        @*  @(community.OwnerId != null ? community.Owner.UserName.Substring(0, 2).ToUpper()*@"ще трябва да може да се достъпва само от authorized users"
+                                        
                                     </div>
                                     <div class="community-content">
                                         <h5 class="text-md-left">@community.Name</h5>
                                         <h6 class="text-md-left description">Description: @community.Description</h6>
                                         <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                            <li class="mr-md-4">
-                                                <i class="fas fa-key"></i> @(community.IsPrivate == false ? "Public" : "Private")
-                                            </li>
                                             <li class="mr-md-4">
                                                 <i class="fas fa-male"></i> (Members count)
                                             </li>
@@ -54,8 +51,6 @@
                                 </div>
                                 <div class="community-right my-4 flex-shrink-0">
                                     <a asp-page="Details" asp-route-id="@community.Id" class="btn d-block w-80 d-sm-inline-block btn-primary">Details</a>
-
-                                    <a href="#" class="btn d-block w-80 d-sm-inline-block btn-primary">@(community.IsPrivate == false ? "Join" : "Apply") Now</a>
                                 </div>
                             </div>
                         }

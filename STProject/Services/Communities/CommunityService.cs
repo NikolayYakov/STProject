@@ -35,8 +35,7 @@ namespace STProject.Services.Communities
                 return data.Communities.ToList();
 
             return data.Communities.Where(c => c.Name.Contains(searchTerm) ||
-                                              c.Description.Contains(searchTerm) ||
-                                              c.Category.Name.Contains(searchTerm)).ToList();
+                                              c.Description.Contains(searchTerm)).ToList();
         }
 
         public int GetCount()
@@ -64,8 +63,6 @@ namespace STProject.Services.Communities
 
             curr.Name = community.Name;
             curr.Description = community.Description;
-            curr.CategoryId = community.CategoryId;
-            curr.IsPrivate = community.IsPrivate;
 
             this.data.SaveChanges();
 
