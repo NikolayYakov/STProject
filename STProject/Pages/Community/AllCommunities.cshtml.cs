@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using STProject.Data;
 using STProject.Data.Models;
+using STProject.Infrastucture;
 using STProject.Services.Communities;
 
 namespace STProject.Pages.Community
@@ -39,6 +42,10 @@ namespace STProject.Pages.Community
 
         public List<STProject.Data.Models.Community> Communities { get; set; }
 
+        public List<STProject.Data.Models.UserToCommunity> UserToCommunities { get; set; }
+
+        public string UserId { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; }
 
@@ -50,8 +57,36 @@ namespace STProject.Pages.Community
         {
             Communities = _communities.Search(SearchTerm);
             Count = Communities.Count();
+            UserToCommunities = _context.UsersToCommunities.ToList();
+            UserId = this.User.GetId();
 
             Communities = await _communities.GetPaginatedResult(Communities, CurrentPage, PageSize);
+        }
+
+        public IActionResult OnGetAddUserToCommunity(int id)
+        {
+            var result = new UserToCommunity()
+            {
+                ApplicationUserId = this.User.GetId(),
+                CommunityId = id
+            };
+            _context.UsersToCommunities.Add(result);
+            _context.SaveChanges();
+
+            return Redirect($"./Details?id={id}");
+        }
+
+        public IActionResult OnGetRemoveUserFromCommunity(int id)
+        {
+            var result = new UserToCommunity()
+            {
+                ApplicationUserId = this.User.GetId(),
+                CommunityId = id
+            };
+            _context.UsersToCommunities.Remove(result);
+            _context.SaveChanges();
+
+            return Redirect($"./AllCommunities");
         }
     }
 }
