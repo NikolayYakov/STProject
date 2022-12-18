@@ -23,9 +23,13 @@
 
   <ItemGroup>
     <Folder Include="Models\Community\" />
+    <Folder Include="Services\Comments\" />
+    <Folder Include="Pages\PostComments\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="NuGet.Commands" />
+    <None Remove="Services\Comments\" />
+    <None Remove="Pages\PostComments\" />
   </ItemGroup>
 </Project>

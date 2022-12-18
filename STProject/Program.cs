@@ -32,6 +32,7 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizePage("/Community/AddCommunity");
     options.Conventions.AuthorizePage("/Community/AllCommunities");
+    options.Conventions.AuthorizePage("/PostComments/CreateComment");
     options.Conventions.AuthorizePage("/Profile");
 });
 
