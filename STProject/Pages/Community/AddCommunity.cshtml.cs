@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,7 +30,6 @@ namespace STProject.Pages.Community
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Id");
             return Page();
         }
 
@@ -38,6 +38,8 @@ namespace STProject.Pages.Community
         {
             Community.Posts = new Collection<Post>();
             Community.CreatedOn = DateTime.Now;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Community.OwnerId = userId;
 
             if (!ModelState.IsValid)
             {

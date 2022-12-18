@@ -45,7 +45,7 @@ namespace STProject.Services.Communities
 
         public int Create(Community community)
         {
-            //community.Owner = data.Users.First(u => u.Id == community.OwnerId); - не го сетва, в users ми излиза, че няма потребители
+            community.Owner = data.Users.First(u => u.Id == community.OwnerId);
             this.data.Communities.Add(community);
             this.data.SaveChanges();
 

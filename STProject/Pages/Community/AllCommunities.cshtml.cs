@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,7 +22,6 @@ namespace STProject.Pages.Community
         private readonly STProject.Data.STProjectContext _context;
         private readonly ICommunityService _communities;
 
-
         public AllCommunitiesModel(STProject.Data.STProjectContext context)
         {
             _context = context;
@@ -31,7 +31,7 @@ namespace STProject.Pages.Community
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
         public int Count { get; set; }
-        public int PageSize { get; set; } = 1;
+        public int PageSize { get; set; } = 2;
 
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
 
@@ -55,10 +55,10 @@ namespace STProject.Pages.Community
 
         public async Task OnGetAsync()
         {
+            UserToCommunities = _context.UsersToCommunities.ToList();
             Communities = _communities.Search(SearchTerm);
             Count = Communities.Count();
-            UserToCommunities = _context.UsersToCommunities.ToList();
-            UserId = this.User.GetId();
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             Communities = await _communities.GetPaginatedResult(Communities, CurrentPage, PageSize);
         }
@@ -67,9 +67,10 @@ namespace STProject.Pages.Community
         {
             var result = new UserToCommunity()
             {
-                ApplicationUserId = this.User.GetId(),
+                ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 CommunityId = id
             };
+
             _context.UsersToCommunities.Add(result);
             _context.SaveChanges();
 
@@ -80,10 +81,18 @@ namespace STProject.Pages.Community
         {
             var result = new UserToCommunity()
             {
-                ApplicationUserId = this.User.GetId(),
+                ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
                 CommunityId = id
             };
             _context.UsersToCommunities.Remove(result);
+            _context.SaveChanges();
+
+            return Redirect($"./AllCommunities");
+        }
+
+        public IActionResult OnGetDeleteCommunity(int id)
+        {
+            _context.Communities.First(c => c.Id == id).IsDeleted = true;
             _context.SaveChanges();
 
             return Redirect($"./AllCommunities");
