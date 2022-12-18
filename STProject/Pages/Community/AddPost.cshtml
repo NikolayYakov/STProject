@@ -1,0 +1,41 @@
+@page
+@model STProject.Pages.Community.AddPost;
+
+@{
+    ViewData["Title"] = "AddPost";
+}
+
+<h1>AddPost</h1>
+<hr />
+
+<div class="row">
+    <h3 class="text-center mb-4">Create your OWN community:</h3>
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            @Html.HiddenFor(x=>x.CommunityId)
+            <div class="text-center form-group">
+                <label asp-for="Post.Title"></label>
+                <input asp-for="Post.Title" class="form-control" placeholder="Joseph Joestar">
+                <span asp-validation-for="Post.Title" class="small text-danger"></span>
+            </div>
+            <br/>
+            <div class="text-center form-group">
+                <label asp-for="Post.Content"></label>
+                <input asp-for="Post.Content" class="form-control" placeholder="This is a community for people interested in JoJo">
+                <span asp-validation-for="Post.Content" class="small text-danger"></span>
+            </div>
+            <br/>
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
