@@ -190,6 +190,12 @@ h5 {
 .description {
     margin-left: 20px;
     padding: 20px;
+    padding-bottom: 0px;
+    color: dimgray;
+}
+
+.owner {
+    margin-left: 40px;
     color: dimgray;
 }
 

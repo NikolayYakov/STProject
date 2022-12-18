@@ -44,6 +44,8 @@ namespace STProject.Pages.Community
 
         public List<STProject.Data.Models.UserToCommunity> UserToCommunities { get; set; }
 
+        public List<ApplicationUser> Users { get; set; }
+
         public string UserId { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -55,6 +57,7 @@ namespace STProject.Pages.Community
 
         public async Task OnGetAsync()
         {
+            Users = _context.Users.ToList();
             UserToCommunities = _context.UsersToCommunities.ToList();
             Communities = _communities.Search(SearchTerm);
             Count = Communities.Count();

@@ -37,21 +37,27 @@
 
                             foreach (var community in Model.Communities)
                             {
-                                var membersCount = Model.UserToCommunities.Count(x => x.CommunityId == community.Id);
-
                                 @if (community.IsDeleted == false)
                                 {
+                                    var membersCount = Model.UserToCommunities.Count(x => x.CommunityId == community.Id);
+                                    var owner = Model.Users.First(x => x.Id == community.OwnerId);
+                                    var ownerName = owner.UserName.Substring(0, 3);
+
                                     <div class="community-box d-md-flex align-items-center justify-content-between mb-30">
                                         <div class="community-left my-4 d-md-flex align-items-center flex-wrap">
                                             <div class="img-holder mr-md-4 mb-md-0 mb-4 mx-auto mx-md-0 d-md-none d-lg-flex">
-                                                @(community.Owner == null ? "nqma" : community.Owner.NormalizedUserName.Substring(3))
+                                                @(community.OwnerId == null ? "nqma" : ownerName)
                                             </div>
                                             <div class="community-content">
                                                 <h5 class="text-md-left">@community.Name</h5>
                                                 <h6 class="text-md-left description">Description: @community.Description</h6>
+                                                <h6 class="text-md-left owner">Owner: @owner.UserName</h6>
                                                 <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
                                                     <li class="mr-md-4">
                                                         <i class="fas fa-male"></i> Members: @membersCount
+                                                    </li>
+                                                    <li class="mr-md-4">
+                                                        <i class="fas fa-male"></i> @membersCount
                                                     </li>
                                                 </ul>
                                             </div>
