@@ -8,6 +8,6 @@ namespace STProject.Services.Posts
 
         public Post Details(int? id);
 
-        public List<Post> Search(string searchTerm = null);
+        public List<Post> Search(int communityId, string searchTerm = null);
     }
 }
