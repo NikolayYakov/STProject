@@ -1,4 +1,5 @@
-﻿using STProject.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using STProject.Data;
 using STProject.Data.Models;
 
 namespace STProject.Services.Posts
@@ -43,12 +44,14 @@ namespace STProject.Services.Posts
             }
         }
 
-        public List<Post> Search(string searchTerm = null)
+        public List<Post> Search(int communityId, string searchTerm = null)
         {
+            var query = data.Posts.AsQueryable();
+            query = query.Where(x => x.CommunityId == communityId);
             if (string.IsNullOrEmpty(searchTerm))
-                return data.Posts.ToList();
+                return query.ToList();
 
-            return data.Posts.Where(c => c.Title.Contains(searchTerm) ||
+            return query.Where(c => c.Title.Contains(searchTerm) ||
                                               c.Content.Contains(searchTerm)).ToList();
         }
     }
