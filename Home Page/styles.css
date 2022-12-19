@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@300&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+h1, a, button {
+    font-family: sans-serif;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: right;
+    padding: 30px 10%;
+}
+
+h1 {
+    cursor: pointer;
+    margin-right: auto;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgb(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: rgb(0, 136, 169, 0.8);
+}
