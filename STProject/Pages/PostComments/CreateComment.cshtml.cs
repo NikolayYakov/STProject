@@ -37,7 +37,9 @@ namespace STProject.Pages.PostComments
         [BindProperty]
         public STProject.Data.Models.Comment Comment { get; set; }
         public STProject.Data.Models.Post Post { get; set; }
-        public STProject.Data.Models.ApplicationUser ApplicationUser { get; set; }
+
+        public List<ApplicationUser> Users { get; set; }
+        public string UserId { get; set; }
 
         public List<STProject.Data.Models.Comment> Comments { get; set; }
 
@@ -47,6 +49,8 @@ namespace STProject.Pages.PostComments
 
         public async Task<IActionResult> OnGetAsync(int postId)
         {
+            Users = _context.Users.ToList();
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             PostId = postId;
             Comment = _comment.commentDetails(postId);
             Comments = _comment.GetAllByPost(postId);
@@ -66,11 +70,10 @@ namespace STProject.Pages.PostComments
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int postId)
+        public IActionResult OnPostAsync(int postId)
         {
             Comment.CreatedOn = DateTime.Now;
             Comment.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //Comment.Owner = await userRepo.GetUserInfo(Comment.OwnerId);
             Post = _post.Details(postId);
             Comment.Post = Post;
             Comment.PostId = postId;
@@ -78,7 +81,7 @@ namespace STProject.Pages.PostComments
             var comment = new Comment();
 
             _comment.Create(Comment);
-            return Page();
+            return  RedirectToPage("/PostComments/CreateComment", new { postId = postId });
         }
     }
 }
