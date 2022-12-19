@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+    </style>
+</head>
+<!-- Body -->
+<body>
+    <header>
+        <h1 class="WebsiteName">WebsiteName</h1>
+        <a href="profile.html"><button>My Profile</button></a>  <!-- need to add links to the profile and login pages-->
+        <a href="Login.html"><button onclick="handleRequest()">Log Out</button></a>
+    </header>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js">
+        function handleRequest() {
+            axios.post("url", {name: "data"}).then(function (response) {
+            console.log(response);
+        })}
+    </script>
+    <!-- <script>
+        const msalconfig = {
+            auth:{
+                clientId: "",
+                authority: "",
+                redirectUI: ""
+            },
+            cache:{
+                cacheLocation: "sessionStorage",
+                storageAuthStateInCookie: false
+            }
+        }
+
+        const MSALObj = new msal.PublicClientApplication(msalconfig);
+
+        let username = "";
+
+        function LogOut(){
+            const logoutReq = {
+                account:MSALObj.getAccountByUsername(username)
+            }
+
+            logOutCon.logoutRedirect(logOutReq);
+        }
+        MSALObj.handleRedirectPromise().then((response) => {
+            console.log(response);
+            username = response.account.username;
+        }).catch((error)=>{console.error(error)});
+
+    </script> -->
+</body>
+</html>
