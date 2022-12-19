@@ -83,5 +83,16 @@ namespace STProject.Pages.PostComments
             _comment.Create(Comment);
             return  RedirectToPage("/PostComments/CreateComment", new { postId = postId });
         }
+
+        public IActionResult OnGetDeleteComment(int id)
+        {
+            var postId = _context.Comments.First(c => c.Id == id).PostId;
+
+            _context.Comments.First(c => c.Id == id).IsDeleted = true;
+            _context.SaveChanges();
+
+            return RedirectToPage("/PostComments/CreateComment", new { postId = postId });
+
+        }
     }
 }
