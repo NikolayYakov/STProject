@@ -11,7 +11,9 @@ namespace STProject.Services.Comments
 
         public int Delete(Comment comment);
 
-        public List<Comment> GetAllByPost(int id);
+        public List<Comment> GetAllByPost(int? id);
+        public Comment commentDetails(int? id);
+
 
     }
 }

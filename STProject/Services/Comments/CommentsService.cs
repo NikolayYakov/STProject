@@ -46,10 +46,31 @@ namespace STProject.Services.Comments
             return comment.Id;
         }
 
-        public List<Comment> GetAllByPost(int id)
+        public Comment commentDetails(int? id)
         {
-            return data.Comments.Where(c => c.PostId == id ).ToList();
+            if (id == null || data.Comments == null)
+            {
+                return null;
+            }
+
+            var comment = data.Comments.FirstOrDefault(m => m.Id == id);
+            if (comment == null)
+            {
+                return null;
+            }
+            else
+            {
+                return comment;
+            }
         }
+
+        public List<Comment> GetAllByPost(int? id)
+        {
+            var query = data.Comments.AsQueryable();
+            query = query.Where(x => x.PostId == id);
+            return query.ToList();
+        }
+
     }
 }
 

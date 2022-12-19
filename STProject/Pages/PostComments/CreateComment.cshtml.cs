@@ -13,6 +13,9 @@ using STProject.Data.Models;
 using STProject.Infrastucture;
 using STProject.Services.Communities;
 using STProject.Services.Comments;
+using STProject.Services.Posts;
+using System.Security.Claims;
+using STProject.Repositories;
 
 namespace STProject.Pages.PostComments
 {
@@ -20,45 +23,62 @@ namespace STProject.Pages.PostComments
     {
         private readonly STProject.Data.STProjectContext _context;
         private readonly ICommentService _comment;
+        private readonly IPostService _post;
+        private readonly UserRepo userRepo;
 
 
         public CreateCommentModel(STProject.Data.STProjectContext context)
         {
             _context = context;
             _comment = new CommentsService(_context);
+            _post = new PostService(_context);
         }
 
         [BindProperty]
         public STProject.Data.Models.Comment Comment { get; set; }
+        public STProject.Data.Models.Post Post { get; set; }
         public STProject.Data.Models.ApplicationUser ApplicationUser { get; set; }
 
         public List<STProject.Data.Models.Comment> Comments { get; set; }
 
+        public int PostId { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
-        { 
-            //Comments = await _comment.GetAllByPost(id);
+
+
+        public async Task<IActionResult> OnGetAsync(int postId)
+        {
+            PostId = postId;
+            Comment = _comment.commentDetails(postId);
+            Comments = _comment.GetAllByPost(postId);
+            if(Comments == null)
+            {
+                return Page();
+            }
+            Post = _post.Details(postId);
+            if(Post == null)
+            {
+                return Page();
+            }
+            if (Comment == null)
+            {
+                return Page();
+            }
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int postId)
         {
             Comment.CreatedOn = DateTime.Now;
-            Comment.OwnerId = this.User.GetId();
+            Comment.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //Comment.Owner = await userRepo.GetUserInfo(Comment.OwnerId);
+            Post = _post.Details(postId);
+            Comment.Post = Post;
+            Comment.PostId = postId;
 
             var comment = new Comment();
 
-            if (await TryUpdateModelAsync<Comment>(
-                comment,
-                "comment",
-                s => s.Content))
-            {
-                _context.Comments.Add(comment);
-                await _context.SaveChangesAsync();
-                return Page();
-            }
-
-                return Page();
+            _comment.Create(Comment);
+            return Page();
         }
     }
 }
