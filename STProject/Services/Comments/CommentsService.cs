@@ -67,7 +67,7 @@ namespace STProject.Services.Comments
         public List<Comment> GetAllByPost(int? id)
         {
             var query = data.Comments.AsQueryable();
-            query = query.Where(x => x.PostId == id);
+            query = query.Where(x => x.PostId == id && x.IsDeleted == false);
             return query.ToList();
         }
 

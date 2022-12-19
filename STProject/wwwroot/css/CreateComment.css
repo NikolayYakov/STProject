@@ -65,8 +65,12 @@ label {
     margin-top: 20px;
 }
 
-.form-group p a {
+.form-group a {
     color: white;
+}
+
+.form-group p {
+    color: black;
 }
 
 

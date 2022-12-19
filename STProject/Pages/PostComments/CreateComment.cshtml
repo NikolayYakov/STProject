@@ -25,6 +25,9 @@
                         <div class="d-flex flex-row align-items-center align-content-center post-title">
                             <span>@Model.Post.CreatedOn</span>
                         </div>
+                        <div class="d-flex flex-row align-items-center align-content-center post-title">
+                            <h6>@Model.Post.Content.</h6>
+                        </div>
                     </div>
                 </div>
                     <div class="container">
@@ -42,6 +45,10 @@
                                         <br>
                                         <span>@comment.CreatedOn</span>
                                         <p>@comment.Content</p>
+                                        @if (comment.OwnerId == Model.UserId)
+                                        {
+                                            <a asp-page="CreateComment" asp-page-handler="DeleteComment" asp-route-id="@comment.Id" class="btn btn-primary">Delete</a>
+                                        }
                                     </div>
                                 }
                             </div>
